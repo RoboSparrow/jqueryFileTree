@@ -20,8 +20,8 @@ FEATURES
 * Single- and multi-folder views
 * Configurable load message
 
-ADDITIONAL FEATURES OF THIS VERSION
-------------------------------------
+Additional Features of this version
+-----------------------------------
 The plugin is extended by adding an optional *directory* click callback.
 For instance you might want to capture the selected folder in an hidden input for directing file uploads.
 Usage:
