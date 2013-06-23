@@ -80,7 +80,7 @@ if(jQuery) (function($){
 								// Collapse
 								$(this).parent().find('UL').slideUp({ duration: options.collapseSpeed, easing: options.collapseEasing });
 								$(this).parent().removeClass('expanded').addClass('collapsed');
-								folderSelected($(thfolderOpenedis), false);
+								folderSelected($(this), false);
 							}
 
 						} else {
