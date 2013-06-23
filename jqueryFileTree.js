@@ -25,11 +25,11 @@
  * https://github.com/RoboSparrow/jqueryFileTree, forked from https://github.com/daverogers/jQueryFileTree
  * The plugin is extended by adding an optional directory click callback.
  * Usage:
- $('#fileBrowser').fileTree(
-	{ root: '/path-to-my-root', script: 'connector-script' },
-	function(file) { console.log(file); },
-	function(directory, selected) { console.log(directory, selected); }	
- ); 
+   $('#<my-id>').fileTree(
+     { root: '<path-to-my-root>', script: '<path-to-connector-script>' },
+     function(file) { console.log(file); },
+     function(directory, selected) { console.log(directory, folderOpened); }	
+   ); 
  * The callback returns the currently active directory (in case of closing a folder this would be the parent directory)
  * The second argument of the callback is a boolean indicating if the user just closed or opened a directory
  */
@@ -80,7 +80,7 @@ if(jQuery) (function($){
 								// Collapse
 								$(this).parent().find('UL').slideUp({ duration: options.collapseSpeed, easing: options.collapseEasing });
 								$(this).parent().removeClass('expanded').addClass('collapsed');
-								folderSelected($(this), false);
+								folderSelected($(thfolderOpenedis), false);
 							}
 
 						} else {

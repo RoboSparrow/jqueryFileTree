@@ -22,14 +22,14 @@ FEATURES
 
 ADDITIONAL FEATURES OF THIS VERSION
 ------------------------------------
-The plugin is extended by adding an optional directory click callback.
-For instance you might want to store the selected folder in an hidden input for directing file uploads.
+The plugin is extended by adding an optional *directory* click callback.
+For instance you might want to capture the selected folder in an hidden input for directing file uploads.
 Usage:
 ```javascript
  $('#<my-id>').fileTree(
 	{ root: '<path-to-my-root>', script: '<path-to-connector-script>' },
 	function(file) { console.log(file); },
-	function(directory, selected) { console.log(directory, selected); }	
+	function(directory, selected) { console.log(directory, folderOpened); }	
  ); 
 ```
 The *directory* callback returns the currently active directory (in case of closing a folder this would be the parent directory)
