@@ -21,7 +21,7 @@ FEATURES
 * Configurable load message
 
 ADDITIONAL FEATURES OF THIS VERSION
-========
+------------------------------------
 The plugin is extended by adding an optional directory click callback.
 For instance you might want to store the selected folder in an hidden input for directing file uploads.
 Usage:
