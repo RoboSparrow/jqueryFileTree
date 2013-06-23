@@ -20,11 +20,24 @@
 // 
 // This plugin is dual-licensed under the GNU General Public License and the MIT License and
 // is copyright 2008 A Beautiful Site, LLC. 
-//
+
+/**
+ * https://github.com/RoboSparrow/jqueryFileTree, forked from https://github.com/daverogers/jQueryFileTree
+ * The plugin is extended by adding an optional directory click callback.
+ * Usage:
+ $('#fileBrowser').fileTree(
+	{ root: '/path-to-my-root', script: 'connector-script' },
+	function(file) { console.log(file); },
+	function(directory, selected) { console.log(directory, selected); }	
+ ); 
+ * The callback returns the currently active directory (in case of closing a folder this would be the parent directory)
+ * The second argument of the callback is a boolean indicating if the user just closed or opened a directory
+ */
+
 if(jQuery) (function($){
 
 	$.extend($.fn, {
-		fileTree: function(options, file) {
+		fileTree: function(options, file, directory) {
 			// Default options
 			if( options.root			=== undefined ) options.root			= '/';
 			if( options.script			=== undefined ) options.script			= '/files/filetree';
@@ -44,6 +57,7 @@ if(jQuery) (function($){
 					$.post(options.script, { dir: dir }, function(data) {
 						$(element).find('.start').html('');
 						$(element).removeClass('wait').append(data);
+						$(element).find('UL').attr('data-folder', dir);
 						if( options.root == dir ) $(element).find('UL:hidden').show(); else $(element).find('UL:hidden').slideDown({ duration: options.expandSpeed, easing: options.expandEasing });
 						bindTree(element);
 					});
@@ -61,11 +75,14 @@ if(jQuery) (function($){
 								$(this).parent().find('UL').remove(); // cleanup
 								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
 								$(this).parent().removeClass('collapsed').addClass('expanded');
+								folderSelected($(this), true);
 							} else {
 								// Collapse
 								$(this).parent().find('UL').slideUp({ duration: options.collapseSpeed, easing: options.collapseEasing });
 								$(this).parent().removeClass('expanded').addClass('collapsed');
+								folderSelected($(this), false);
 							}
+
 						} else {
 							file($(this).attr('rel'));
 						}
@@ -74,6 +91,25 @@ if(jQuery) (function($){
 					// Prevent A from triggering the # on non-click events
 					if( options.folderEvent.toLowerCase != 'click' ) $(element).find('LI A').on('click', function() { return false; });
 				}
+				
+				/**
+				 * fire the directory click event if assigned
+				 * @param object $obj: jquery element (folder link)
+				 * @param boolean folderOpened: indicates event: folder subtree was closed or opened by user
+				 */
+				function folderSelected($obj, folderOpened){	
+					if(typeof(directory) !== 'function' ){
+						return;
+					}
+					if(folderOpened){
+						var activeDirectory = $obj.attr('rel');
+					}else{
+						var $parent = $obj.parent().parent();
+						var activeDirectory = $parent.parent().find('UL').attr('data-folder');//parent
+					}
+					directory(activeDirectory, folderOpened);
+				}//f
+				
 				// Loading message
 				$(this).html('<ul class="jqueryFileTree start"><li class="wait">' + options.loadMessage + '<li></ul>');
 				// Get the initial file list

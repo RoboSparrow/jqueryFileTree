@@ -20,6 +20,21 @@ FEATURES
 * Single- and multi-folder views
 * Configurable load message
 
+ADDITIONAL FEATURES OF THIS VERSION
+========
+The plugin is extended by adding an optional directory click callback.
+For instance you might want to store the selected folder in an hidden input for directing file uploads.
+Usage:
+```javascript
+ $('#<my-id>').fileTree(
+	{ root: '<path-to-my-root>', script: '<path-to-connector-script>' },
+	function(file) { console.log(file); },
+	function(directory, selected) { console.log(directory, selected); }	
+ ); 
+```
+The *directory* callback returns the currently active directory (in case of closing a folder this would be the parent directory)
+The second argument of the callback is a boolean indicating if the user just closed or opened a directory.
+
 CREATING A FILE TREE
 ====================
 
